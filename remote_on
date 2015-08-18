@@ -47,12 +47,6 @@ class NetServiceCheck(object):
 				self.end_wait()
 				return True
 
-def generate_ips(ip_range):
-	base, up = ip_range.split('-')
-	ip = []
-	low = base[base.rfind('.') + 1:]
-	for x in xrange(
-
 if __name__ == '__main__':
 	host, port, timeout =  
 	service_checker = NetServiceCheck(host, port, timeout)
