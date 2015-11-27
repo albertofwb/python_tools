@@ -7,7 +7,7 @@ import simple_email
 import subprocess
 
 lock_file = '/tmp/send_email.lock'
-del_time = 13
+del_time = "13:01"
 today_hour = time.strftime("%H:%M")
 
 # send email only once
