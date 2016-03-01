@@ -27,7 +27,7 @@ def make_accessory(fine_name):
 
 def send_email(sender=From, recviers=To, title="This is title", text="this is a test text to text mime", data=None):
         server = smtplib.SMTP("smtp.qq.com")
-        server.login("2932716209","lol951..") #仅smtp服务器需要验证时
+        server.login("123456789","123456") #仅smtp服务器需要验证时
         # 构造MIMEMultipart对象做为根容器
         main_msg = email.MIMEMultipart.MIMEMultipart()
         # 构造MIMEText对象做为邮件显示内容并附加到根容器
