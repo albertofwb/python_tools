@@ -1,7 +1,0 @@
-{
-    "server": "23.83.236.145",
-    "password": "A5210208I",
-    "server_port": 7240,
-    "local_port": 1080,
-    "method": "aes-256-cfb"
-}

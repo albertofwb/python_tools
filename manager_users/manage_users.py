@@ -13,7 +13,7 @@ import config
 
 '''
 file_format:
-account		comment		company
+(account)      (comment)	(company)
 11042		albert		xaut
 '''
 
