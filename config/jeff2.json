@@ -1,0 +1,7 @@
+{
+    "server": "jeff2.com",
+    "password": "99a3e1",
+    "server_port": 12321,
+    "local_port": 1081,
+    "method": "aes-256-cfb"
+}
