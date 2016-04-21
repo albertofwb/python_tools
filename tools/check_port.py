@@ -23,15 +23,7 @@ def scan_port(ip, port):
         return False
 
 def is_connect2net():
-    try:
-        socket.setdefaulttimeout(2)
-        # default  family=2, type=1, proto=0
-        s = socket.socket()
-        s.connect(("www.baidu.com", 80))
-        s.close()
-        return True
-    except:
-        return False
+    return scan_port("www.baidu.com", 80)
 
 def check_service(config, verbose):
     host, port, exec_file = config
