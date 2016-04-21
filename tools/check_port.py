@@ -6,9 +6,10 @@ import time
 import os
 import sys
 
-SLEEP_TIME = 10
+SLEEP_TIME = 5
+LOG_FILE = '/tmp/remote_ssh.log'
 services = {}
-services['ssh_remote'] = ("unp_server.com", 35110, "/tmp/run.sh")
+services['ssh_remote'] = ("unp_server.com", 35110, "~/bin/enable_remote_ssh")
 
 def scan_port(ip, port):
     try:
@@ -21,20 +22,55 @@ def scan_port(ip, port):
     except:
         return False
 
+def is_connect2net():
+    try:
+        socket.setdefaulttimeout(2)
+        # default  family=2, type=1, proto=0
+        s = socket.socket()
+        s.connect(("www.baidu.com", 80))
+        s.close()
+        return True
+    except:
+        return False
 
-def check_service(config):
+def check_service(config, verbose):
     host, port, exec_file = config
+    check_counter = 0
+    status = ["OFFLINE", "ONLINE"]
+    information = ""
+    fp = open(LOG_FILE, 'a+')
     if None in (host, port, exec_file):
         sys.exit(1)
-    while True:
-        if scan_port(host, port):
-            os.system(exec_file)
-            print "%s: %d is OnLine" %(host, port)
-            print "I will be waiting for %d seconds" %SLEEP_TIME
-        else:
-            print "OFF"
 
+    host_info = "[%s:%d]" %(host, port)
+    while True:
+        ret = scan_port(host, port)
+        information = "%d %s %s sleeping for %d seconds\n" %(check_counter, host_info, status[ret], SLEEP_TIME)
+        if ret is True:
+            pass
+        else:
+            if is_connect2net():
+                os.system(exec_file)
+            else:
+                information = "failed to connect to internet\n"
+
+        check_counter += 1
+
+        cur_time = time.strftime('[%Y-%m-%d %H:%M:%S] ')
+        information = cur_time + information
+        if not verbose:
+            fp.write(information)
+            fp.flush()
+        else:
+            print information.strip()
         time.sleep(SLEEP_TIME)
 
 if __name__ == '__main__':
-     check_service (services['ssh_remote'])
+    verbose = False
+    args = ""
+    if len(sys.argv) == 2:
+        args = sys.argv[1]
+    if args.lower() == 'show':
+        verbose = True
+
+    check_service (services['ssh_remote'], verbose)
