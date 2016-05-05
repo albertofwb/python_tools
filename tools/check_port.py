@@ -13,7 +13,7 @@ services['ssh_remote'] = ("unp_server.com", 35110, "~/bin/enable_remote_ssh")
 
 def scan_port(ip, port):
     try:
-        socket.setdefaulttimeout(2)
+        socket.settimeout(2)
         # default  family=2, type=1, proto=0
         s = socket.socket()
         s.connect((ip, port))
@@ -44,7 +44,7 @@ def check_service(config, verbose):
             if is_connect2net():
                 os.system(exec_file)
             else:
-                information = "failed to connect to internet\n"
+                information = information.strip() + " failed to connect to internet\n"
 
         check_counter += 1
 
