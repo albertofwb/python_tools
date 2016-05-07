@@ -2,7 +2,7 @@
 
 import os
 import sys
-from config import init_mem
+from config import init_mem, get_homeworks
 
 def show_usage(proc_name):
     usage = '''\
@@ -14,29 +14,38 @@ Usage: %s <-d> <top_dir_name>
     print usage
     sys.exit(0)
 
-def cmp_func(users):
+def cmp_func(users, cmp_file):
     this_user = 0
     users_total = len(users)
 
+    #print "users_total: %d" %(users_total)
     while this_user < users_total:
         cmp_user = this_user + 1
         while cmp_user < users_total:
-            src_tag = users[this_user].get_md5(cmp_file)
-            tar_tag = users[cmp_user].get_md5(cmp_file)
-            if not cmp(users[this_user].get_md5(cmp_file), users[cmp_user].get_md5(cmp_file)):
-                users[this_user].set_equal_flag(users[cmp_user].get_account())
-                users[cmp_user].set_equal_flag(users[this_user].get_account())
+            #print "checking exist: ", cmp_file
+            this = users[this_user]
+            other = users[cmp_user]
+            if this.have_file(cmp_file) and other.have_file(cmp_file):
+                source = this.get_md5(cmp_file)
+                target = other.get_md5(cmp_file)
+                if not cmp(source, target):
+                    this.set_check()
+                    this.set_equal_flag(other.get_account(), cmp_file)
+                    other.set_equal_flag(this.get_account(), cmp_file)
+            cmp_user += 1
+        this_user += 1
 
 
 
 def main():
     users = init_mem()
-    cmp_func(users)
+    homeworks = get_homeworks()
+    for work in homeworks:
+        cmp_func(users, work)
 
-    users_total = len(users)
-    print ("total users: %d") %(users_total)
     for u in users:
-        print u
+        if u.is_checked():
+            print u.is_copy()
 
 if __name__ == '__main__':
     main()

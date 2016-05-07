@@ -3,12 +3,15 @@
 import os
 import re
 import hashlib
+import ConfigParser
 
-user_name_file = "users.txt"
-#top_dir = "/home"
-top_dir = "/home/albert/git/Python/repetition_rate/data/"
-user_format = "\d{10}"
-homework_list = ["homework1/str_echo.c", "homework2/dns.c"]
+config = ConfigParser.RawConfigParser(dict())
+config.read('config.ini')
+
+username_file = config.get('basic_set', 'username_file')
+top_dir = config.get('basic_set', 'top_dir')
+user_format = config.get('basic_set', 'user_format')
+homework_list = config.get('basic_set', 'homeworks').split()
 
 def get_homeworks():
     return homework_list
@@ -66,7 +69,9 @@ class User():
             ret += ' copied'
             for i in self.copied_whom:
                 ret = ret + ' *' + i[0] + '* [' + i[1] +']'
-            return ret
+        else:
+            ret += ' does not have homework file'
+        return ret
 
     def read_files(self):
         for path in self.files:
@@ -94,7 +99,7 @@ def get_active_dir():
 
 def map_name():
     users_dict = {}
-    fp = open(user_name_file)
+    fp = open(username_file)
 
     for line in fp:
         line = line.strip().split()
@@ -134,3 +139,9 @@ def debug():
 
 if __name__ == '__main__':
     debug()
+    '''
+    print username_file
+    print top_dir
+    print user_format
+    print homework_list
+    '''
