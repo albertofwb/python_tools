@@ -2,11 +2,7 @@
 
 import os
 import sys
-import getopt
-from config import config_set 
-from cmp_text import cmp_text
-
-DEFAULT_TOP_DIR='/home'
+from config import init_mem
 
 def show_usage(proc_name):
     usage = '''\
@@ -18,29 +14,29 @@ Usage: %s <-d> <top_dir_name>
     print usage
     sys.exit(0)
 
-def get_src_list(top_dir):
-    file_list = []
-    pwd = os.getcwd()
-    try:
-        file_list = os.listdir(top_dir)
-    except Exception as error:
-        print error
-    return file_list
+def cmp_func(users):
+    this_user = 0
+    users_total = len(users)
+
+    while this_user < users_total:
+        cmp_user = this_user + 1
+        while cmp_user < users_total:
+            src_tag = users[this_user].get_md5(cmp_file)
+            tar_tag = users[cmp_user].get_md5(cmp_file)
+            if not cmp(users[this_user].get_md5(cmp_file), users[cmp_user].get_md5(cmp_file)):
+                users[this_user].set_equal_flag(users[cmp_user].get_account())
+                users[cmp_user].set_equal_flag(users[this_user].get_account())
 
 
-def main(args):
-    proc_name = args[0]
-    opt       = args[1]
-    config_file = ""
-    top_dir     = ""
-    src_list = []
 
-    if opt in ("-h", "--help"):
-        show_usage(proc_name)
-    elif opt in("-d", "--top-dir"):
-        print get_src_list(args[2])
-    else:
-        print config_set
+def main():
+    users = init_mem()
+    cmp_func(users)
+
+    users_total = len(users)
+    print ("total users: %d") %(users_total)
+    for u in users:
+        print u
 
 if __name__ == '__main__':
-    main(sys.argv)
+    main()
