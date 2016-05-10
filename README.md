@@ -23,10 +23,10 @@ unp_work
 
 ##
 useful_scripts
- calculate wingide license
- check_port is to ensure the remote service is online
- logtamter to erase the linux login records
- send_email  as you can see, this will send a email with python
+> [calculate wingide license]
+> [check_remote_service]
+> [erase the linux login records]
+> [send_email]
 
 ##
 wifi
