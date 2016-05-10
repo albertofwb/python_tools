@@ -2,11 +2,7 @@
 
 import os
 import sys
-<<<<<<< HEAD
-from prepare import init_mem, get_homeworks
-=======
 from config import init_mem, get_homeworks
->>>>>>> d4a8bcef6dcbda7be7e2d6ce379fe09724d687af
 
 def show_usage(proc_name):
     usage = '''\
