@@ -26,7 +26,7 @@ def filter_buffer(buff):
             loop += 1
             continue
         else:
-            new_buff += ch
+            new_buff += ch.lower()
         loop += 1
     #print new_buff
     return new_buff
